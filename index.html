@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>年末カウントダウン</title>
+    <style>
+        /* スタイルの定義 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .countdown-panel {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        #countdown {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .countdown-panel h1, .countdown-panel #countdown span {
+            /* テキストの彩度を変更するグラデーションエフェクト */
+            background: -webkit-linear-gradient(left, violet, rgb(110, 13, 179), blue, rgb(9, 192, 9), yellow, orange, red);
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: rainbow 8s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes rainbow {
+          0%,100% {
+            filter: hue-rotate(0deg);
+          }
+          50% {
+            filter: hue-rotate(360deg);
+          }
+        }
+
+        #stars, #stars2, #stars3 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
+            z-index: 0;
+        }
+
+        #stars2 {
+            background: url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
+            z-index: 1;
+            opacity: 0.5;
+            animation: move 1000s linear infinite;
+        }
+
+        #stars3 {
+            background: url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
+            z-index: 2;
+            opacity: 0.7;
+            animation: move 500s linear infinite;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateY(0px);
+            }
+            100% {
+                transform: translateY(-30000px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+    
+    <div class="countdown-panel">
+        <h1>2024年まであと...</h1>
+        <div id="countdown">
+            <span id="days">--</span> 日 
+            <span id="hours">--</span> 時間 
+            <span id="minutes">--</span> 分 
+            <span id="seconds">--</span> 秒
+        </div>
+    </div>
+
+    <script>
+        // カウントダウンの更新を行う関数
+        function updateCountdown() {
+            const now = new Date();
+            const newYear = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0); // 翌年の1月1日 0:00:00
+            const diff = newYear - now;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            // カウントダウンの要素に値を設定
+            document.getElementById('days').innerText = days;
+            document.getElementById('hours').innerText = hours;
+            document.getElementById('minutes').innerText = minutes;
+            document.getElementById('seconds').innerText = seconds;
+        }
+
+        // 1秒ごとにカウントダウンを更新
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
