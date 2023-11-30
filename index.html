@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>年末カウントダウン</title>
     <style>
-        /* スタイルの定義 */
+        /* 既存のスタイル定義 */
         body, html {
             margin: 0;
             padding: 0;
@@ -32,7 +32,6 @@
         }
 
         .countdown-panel h1, .countdown-panel #countdown span {
-            /* テキストの彩度を変更するグラデーションエフェクト */
             background: -webkit-linear-gradient(left, violet, rgb(110, 13, 179), blue, rgb(9, 192, 9), yellow, orange, red);
             -webkit-background-clip: text;
             color: transparent;
@@ -49,6 +48,10 @@
           }
         }
 
+        .countdown-panel, #celebrateButton {
+            z-index: 3; /* 星々の要素より上に配置 */
+        }
+
         #stars, #stars2, #stars3 {
             position: absolute;
             top: 0;
@@ -59,7 +62,7 @@
             height: 100%;
             display: block;
             background: url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
-            z-index: 0;
+            z-index: 1;
         }
 
         #stars2 {
@@ -84,6 +87,22 @@
                 transform: translateY(-30000px);
             }
         }
+
+        /* ボタンスタイルの追加 */
+        #celebrateButton {
+            padding: 10px 20px;
+            font-size: 3em; /*1~10*/
+            color: white;
+            background-color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px; /* ボタンの上の余白を追加 */
+        }
+
+        #celebrateButton:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -99,13 +118,21 @@
             <span id="minutes">--</span> 分 
             <span id="seconds">--</span> 秒
         </div>
+        <!-- ボタンの追加 -->
+        <button id="celebrateButton">🎉</button>
     </div>
+
+    
+
+    <!-- party-jsの導入 -->
+    <script src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js"></script>
+
 
     <script>
         // カウントダウンの更新を行う関数
         function updateCountdown() {
             const now = new Date();
-            const newYear = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0); // 翌年の1月1日 0:00:00
+            const newYear = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0);
             const diff = newYear - now;
 
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -113,7 +140,6 @@
             const minutes = Math.floor((diff / 1000 / 60) % 60);
             const seconds = Math.floor((diff / 1000) % 60);
 
-            // カウントダウンの要素に値を設定
             document.getElementById('days').innerText = days;
             document.getElementById('hours').innerText = hours;
             document.getElementById('minutes').innerText = minutes;
@@ -122,6 +148,16 @@
 
         // 1秒ごとにカウントダウンを更新
         setInterval(updateCountdown, 1000);
+
+        // ボタンクリック時の演出
+        document.getElementById('celebrateButton').addEventListener('click', function() {
+            party.confetti(this, {
+                count: party.variation.range(50, 70),
+                spread: party.variation.range(600, 800),//吹雪の拡散度
+                size: party.variation.range(1.2, 1.5),//紙吹雪の大きさ
+                shapes: ['circle', 'square','star']
+            });
+        });
     </script>
 </body>
 </html>
