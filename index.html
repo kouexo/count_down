@@ -111,7 +111,7 @@
     <div id="stars3"></div>
     
     <div class="countdown-panel">
-        <h1>2024年まであと...</h1>
+        <h1 id="title">2024年まであと...</h1>
         <div id="countdown">
             <span id="days">--</span> 日 
             <span id="hours">--</span> 時間 
@@ -132,8 +132,16 @@
         // カウントダウンの更新を行う関数
         function updateCountdown() {
             const now = new Date();
-            const newYear = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0);
+            // const newYear = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0);
+            const newYear = new Date(2023, 11, 4, 14, 9, 0); // 月は0から始まるため、11は12月を意味します
             const diff = newYear - now;
+
+            // 新年を迎えた場合の処理
+            if (diff <= 0) {
+                document.getElementById('title').style.display = 'none';
+                document.getElementById('countdown').innerHTML = 'Happy New Year!2024年もよろしくお願いいたします!!';
+                return; // カウントダウンを更新しない
+            }
 
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
